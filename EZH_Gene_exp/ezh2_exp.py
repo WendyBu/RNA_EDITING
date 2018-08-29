@@ -4,15 +4,14 @@
 import pandas as pd
 pd.set_option('display.max_columns', 50)
 
-df = pd.read_table("gene_exp.diff", sep="\t")
-# print df.head(), df.shape
+df = pd.read_table("gene_exp.diff", sep="\t")   #overall control vs EZH2 knockdown, not for single sample
 dfs = df[["gene_id", "log2(fold_change)", "p_value"]]
 dfs.set_index("gene_id", inplace=True)   ### set_index, not reset_index
 
 
 lost = pd.read_table("../WTvsEZH2sh/CtrvsA7A8_final.xls",sep="\t", index_col=0)
 lost.sort_values("0", axis=0, inplace=True, ascending=False)
-df_exp_loss = pd.concat([lost,dfs], axis=1, join='inner')
+df_exp_loss = pd.concat([lost,dfs], axis=1, join='inner')   #concat, axis=1, add col by col
 df_exp_loss.to_csv("lost_sites_exp.xls", sep="\t")
 
 
